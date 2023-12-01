@@ -1,0 +1,38 @@
+implementation notes
+- three main operations that LOB has to implement
+    - add
+    - cancel
+    - execute
+- goal is to implement in constant time
+- need to ask questions like
+    - what are the best bid and offer
+    - how much volume is there between price A and B 
+    - what is order X's current position in the book
+- vast majority or activity is add and cancel operations
+- add operation places an order at the and of a list of orders to be executed at a particular limit price
+- cancel operation removes an order from anywhere in the book
+- execute removes an order from the inside of the book
+- each of the above operations is keyed off an id number 
+    - Order.idNumber
+- idea
+    - have a binary tree of Limit objects sorted by limitPrice
+    - each limitPrice is adouble linked list of order objects
+    - each side of the book should be in separate trees
+        - best buy/ask corresponds to end and beginning of buy and sell tree
+    - each order is entry in a map keyed off idNumber
+    - each Limit entry in map keyed off limitPrice
+
+Add – O(log M) for the first order at a limit, O(1) for all others
+Cancel – O(1)
+Execute – O(1)
+GetVolumeAtLimit – O(1)
+GetBestBid/Offer – O(1)
+- m is the number of price limits (generally << N the number of orders)
+- some strategy to keep limit tree balance should be used
+
+
+
+programming notes
+- std::list is implemented as a doubly linked list, dont have to write my own
+- will have to figure out some binary tree implementaiton,
+- other than that it should be fairly straight forward
